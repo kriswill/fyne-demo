@@ -14,14 +14,14 @@
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     in
     {
-      overlay = _: prev: { inherit (self.packages.${prev.system}) thing; };
+      overlay = _: prev: { inherit (self.packages.${prev.system}) fyne-demo; };
 
       packages = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
         in
         {
-          thing = with pkgs; pkgs.buildGoModule rec {
+          fyne-demo = with pkgs; pkgs.buildGoModule rec {
             pname = "fyne-demo";
             version = "v2.5.3";
             src = ./.;
@@ -55,7 +55,7 @@
           };
         });
 
-      defaultPackage = forAllSystems (system: self.packages.${system}.thing);
+      defaultPackage = forAllSystems (system: self.packages.${system}.fyne-demo);
       devShells = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
